@@ -8,7 +8,14 @@ body {
   background-color: lightblue !important;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+@media screen and (min-width: 1200px) {
+  .container {
+    max-width: 600px !important;
+    border-radius: 5px !important;
+  }
+}
+@media screen and (min-width: 576px) {
+  .form-inline .form-control {
+    width: calc(100% - 85px) !important;
+  }
 }
