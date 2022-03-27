@@ -1,5 +1,5 @@
 import { call, put, takeEvery } from "redux-saga/effects";
-import { FETCH_TODOS, FETCH_TODOS_SUCCESS, ADD_TODO, ADD_TODO_SUCCESS, DELETE_TODO, DELETE_TODO_SUCCESS } from "../constants/action-types";
+import { FETCH_TODOS, FETCH_TODOS_SUCCESS, ADD_TODO, ADD_TODO_SUCCESS, DELETE_TODO, DELETE_TODO_SUCCESS, EDIT_TODO, EDIT_TODO_SUCCESS } from "../constants/action-types";
 
 /* HELPER FUCNTION DEFINITION */
 // call: Just as in Redux you use action creators to create a plain object describing the action that will get executed by the Store, call creates a plain object describing the function call. The redux-saga middleware takes care of executing the function call and resuming the generator with the resolved response.
@@ -44,8 +44,9 @@ function* addTodoToAPI(payload) {
 
 function* deleteTodoFromAPI(payload) {
     try {
-        //console.log("saga deleteTodoFromAPI() payload:", payload);
-        const id = payload
+        //console.log("saga deleteTodoFromAPI() payload:", JSON.stringify(payload));
+        const id = payload.id;
+        // console.log("URL", `${BASE_URL}/todos/${id}`);
         const todo = yield call(() =>
             fetch(`${BASE_URL}/todos/${id}`, {
             method: "DELETE"
@@ -53,6 +54,24 @@ function* deleteTodoFromAPI(payload) {
         );
         //console.log("deleted todo API response:", todo);
         yield put({ type: DELETE_TODO_SUCCESS, payload: id });
+    } catch(e) {
+        console.error(e.message);
+    }
+}
+
+function* editTodoUsingAPI(payload) {
+    try {
+        //console.log("saga editTodoFromAPI() payload:", payload); 
+        const id = payload.todo.id;
+        const todo = yield call(() =>
+          fetch(`${BASE_URL}/lists/${id}`, {
+            headers,
+            body: JSON.stringify(payload),
+            method: "PUT"
+          }).then(response => response.json())
+        );
+        //console.log("saga edit API call() response:", todo);    
+        yield put({ type: EDIT_TODO_SUCCESS, payload: payload });
     } catch(e) {
         console.error(e.message);
     }
@@ -70,7 +89,11 @@ function* watchDeleteTodo() {
     yield takeEvery(DELETE_TODO, deleteTodoFromAPI)
 }
 
+function* watchEditTodo() {
+    yield takeEvery(EDIT_TODO, editTodoUsingAPI)
+}
 
-const sagas = [watchFetchTodos(), watchAddTodo(), watchDeleteTodo()];
+
+const sagas = [watchFetchTodos(), watchAddTodo(), watchDeleteTodo(), watchEditTodo()];
 
 export default sagas;

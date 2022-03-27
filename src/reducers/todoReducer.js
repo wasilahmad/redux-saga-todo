@@ -1,4 +1,4 @@
-import { FETCH_TODOS_SUCCESS, ADD_TODO_SUCCESS, DELETE_TODO_SUCCESS } from '../constants/action-types';
+import { FETCH_TODOS_SUCCESS, ADD_TODO_SUCCESS, DELETE_TODO_SUCCESS, EDIT_TODO_SUCCESS } from '../constants/action-types';
 
 const initialState = { 
     todos: [
@@ -27,10 +27,18 @@ const todoReducer = (state = initialState, action) => {
         };
         case DELETE_TODO_SUCCESS:
         // console.log("DELETE_TODO_SUCCESS", action.payload);
-        const updatedTodos = state.todos.filter( todo => todo.id !== action.payload.id);
+        const updatedTodos = state.todos.filter( todo => todo.id !== action.payload);
         return {
             ...state,
             todos: [...updatedTodos]
+        };
+        case EDIT_TODO_SUCCESS:
+        //console.log("EDIT_TODO_SUCCESS", action.payload);
+        //const tempTodos = [...state.todos];
+        //const { id, completed } = action.payload.todo;           
+        return {
+            ...state,
+            todos: [...state.todos]
         };
         default : return {...state};
     }
