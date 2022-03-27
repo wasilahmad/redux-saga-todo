@@ -44,14 +44,14 @@ function* addTodoToAPI(payload) {
 
 function* deleteTodoFromAPI(payload) {
     try {
-        console.log("saga deleteTodoFromAPI() payload:", payload);
+        //console.log("saga deleteTodoFromAPI() payload:", payload);
         const id = payload
         const todo = yield call(() =>
             fetch(`${BASE_URL}/todos/${id}`, {
             method: "DELETE"
             }).then(response => response.json())
         );
-        console.log("saga delete todo response:", todo);
+        //console.log("deleted todo API response:", todo);
         yield put({ type: DELETE_TODO_SUCCESS, payload: id });
     } catch(e) {
         console.error(e.message);
