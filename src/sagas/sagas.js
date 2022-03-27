@@ -1,5 +1,5 @@
 import { call, put, takeEvery } from "redux-saga/effects";
-import { FETCH_TODOS, FETCH_TODOS_SUCCESS, ADD_TODO, ADD_TODO_SUCCESS } from "../constants/action-types";
+import { FETCH_TODOS, FETCH_TODOS_SUCCESS, ADD_TODO, ADD_TODO_SUCCESS, DELETE_TODO, DELETE_TODO_SUCCESS } from "../constants/action-types";
 
 /* HELPER FUCNTION DEFINITION */
 // call: Just as in Redux you use action creators to create a plain object describing the action that will get executed by the Store, call creates a plain object describing the function call. The redux-saga middleware takes care of executing the function call and resuming the generator with the resolved response.
@@ -25,10 +25,6 @@ function* fetchTodosFromAPI() {
     }
 }
 
-function* watchFetchTodos() {
-    yield takeEvery(FETCH_TODOS, fetchTodosFromAPI);
-}
-
 function* addTodoToAPI(payload) {
     try {
         //console.log("saga addTodoAPI() payload value:", payload);
@@ -46,11 +42,35 @@ function* addTodoToAPI(payload) {
     }
 }
 
+function* deleteTodoFromAPI(payload) {
+    try {
+        console.log("saga deleteTodoFromAPI() payload:", payload);
+        const id = payload
+        const todo = yield call(() =>
+            fetch(`${BASE_URL}/todos/${id}`, {
+            method: "DELETE"
+            }).then(response => response.json())
+        );
+        console.log("saga delete todo response:", todo);
+        yield put({ type: DELETE_TODO_SUCCESS, payload: id });
+    } catch(e) {
+        console.error(e.message);
+    }
+}
+
+function* watchFetchTodos() {
+    yield takeEvery(FETCH_TODOS, fetchTodosFromAPI);
+}
+
 function* watchAddTodo() {
     yield takeEvery(ADD_TODO, addTodoToAPI)
 }
 
+function* watchDeleteTodo() {
+    yield takeEvery(DELETE_TODO, deleteTodoFromAPI)
+}
 
-const sagas = [watchFetchTodos(), watchAddTodo()];
+
+const sagas = [watchFetchTodos(), watchAddTodo(), watchDeleteTodo()];
 
 export default sagas;
