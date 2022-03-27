@@ -1,4 +1,4 @@
-import { FETCH_TODOS_SUCCESS } from '../constants/action-types';
+import { FETCH_TODOS_SUCCESS, ADD_TODO_SUCCESS } from '../constants/action-types';
 
 const initialState = { 
     todos: [
@@ -12,11 +12,17 @@ const initialState = {
 
 const todoReducer = (state = initialState, action) => {
     switch(action.type) {
-        case FETCH_TODOS_SUCCESS : 
+        case FETCH_TODOS_SUCCESS: 
         console.log("FETCH_TODOS_SUCCESS", action.payload);
         return {
             ...state,
             todos: [...action.payload.todos]
+        };
+        case ADD_TODO_SUCCESS:    
+        const newTodo = action.payload.todo;
+        return {
+            ...state,
+            todos: [...state.todos, newTodo]
         };
         default : return {...state};
     }
