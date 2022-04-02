@@ -11,6 +11,7 @@ Tutorial to demonstrate redux-saga fundamentals using CRUD API operations
 -  Redux-saga fundamentals using react app and syntax to dispatch async action  
 -  To Perform CRUD operaiotn using API services
 -  To perform post/put/patch/delete API operations from https://my-json-server.typicode.com
+-  End Point : https://my-json-server.typicode.com/wasilahmad/redux-saga-todo
 
 
 
