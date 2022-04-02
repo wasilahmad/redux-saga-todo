@@ -4,7 +4,7 @@ Tutorial to demonstrate redux-saga fundamentals using CRUD API operations
 ## Demo
 [Tutorial Demo: https://redux-saga-tutorial.herokuapp.com/](https://redux-saga-tutorial.herokuapp.com/)
 
-![Screenshot](https://github.com/wasilahmad/react-api-crud-app/blob/master/public/react-api-crud-app.png 'Tutorial Screenshot')
+![Screenshot](https://github.com/wasilahmad/redux-saga-todo/blob/main/redux-saga-tutoria-snap.png 'Tutorial Screenshot')
 
 
 ## What You'll Learn
