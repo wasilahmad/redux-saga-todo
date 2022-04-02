@@ -20,10 +20,10 @@ const TodoList = () => {
 	}, [dispatch]); // <- dependencies : always to have dependencies if ommitted it will goes infinite loop 
 
 	return (
-		<ul className='list-group'>
-			{todos.map((todo) => (
+		<ul className='list-group'>			
+			{todos.length ? (todos.map((todo) => (
 				<TodoItem key={todo.id} id={todo.id} title={todo.title} completed={todo.completed} />
-			))}
+			))):(<li className='list-group-item'><div className='d-flex'>No more todos!</div></li>)}	
 		</ul>
 	);
 };
